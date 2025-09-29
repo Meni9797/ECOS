@@ -1,8 +1,8 @@
 local plr = game.Players.LocalPlayer
 local gui = plr.PlayerGui
 
-local UI = plr.Character:WaitForChild("ECOS")
-local INVIS = plr.Character:WaitForChild("MAIN")
+local UI = plr.PlayerGui:WaitForChild("ECOS")
+local INVIS = UI:WaitForChild("MAIN")
 
 local MAIN = Instance.new("Frame")
 MAIN.Parent = INVIS
