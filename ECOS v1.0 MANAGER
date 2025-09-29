@@ -1,1 +1,251 @@
+-- ECOS V1.0 MANAGER
+-- BASED ON DOS AND MS-DOS
+-- 2025 BY MENI9797
 
+-- FILE SAVES --
+
+local FILES = {}
+local DESKTOP = {}
+local DESKTOPPOS = {}
+
+-- EGOS SAVES --
+
+local WALLPAPERID = "rbxassetid://"
+
+-- DO NOT EDIT ANYTHING BELOW --
+
+-- VARIABLES --
+
+local plr = game.Players.LocalPlayer
+local gui = plr.PlayerGui
+local uis = game:GetService("UserInputService")
+local lastLinePos = 0
+local lineCount = 0
+local toPrint
+local isFocused = false
+local canClear = true
+local assignParentNewInstance = false
+local newInstanceClassName = "None"
+
+-- CODE --
+
+local ALREADYRUNNING = gui:FindFirstChild("ECOS")
+if ALREADYRUNNING then
+	local SCROLLE = ALREADYRUNNING:WaitForChild("COMMANDS")
+	lineCount += 1
+	local LINE = Instance.new("TextLabel")
+	LINE.Parent = SCROLLE
+	LINE.Size = UDim2.new(1, 0, 0.0000000635, 0)
+	LINE.BackgroundTransparency = 1
+	LINE.Name = "LINE"
+	LINE.Text = "- ECOS IS ALREADY RUNNING"
+	LINE.TextColor3 = Color3.fromRGB(193, 193, 193)
+	LINE.TextScaled = true
+	LINE.Font = Enum.Font.Arcade
+	LINE.TextXAlignment = Enum.TextXAlignment.Left
+	lastLinePos += 0.0000000635
+	LINE.Position = UDim2.new(0, 0, lastLinePos, 0)
+else
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/Meni9797/ECOS/refs/heads/main/CreateECOS%20v1.0"))() -- Create ECOS
+	local ECOS = gui:WaitForChild("ECOS")	
+	local INVISIBLE = ECOS:WaitForChild("MAIN")
+	local MAIN = INVISIBLE:WaitForChild("ECOS")
+	local SCROLL = MAIN:WaitForChild("COMMANDS")
+	local INPUTER = MAIN:WaitForChild("CMD")
+	local NEARINPUT = MAIN:WaitForChild("TXTNEARINPUTERDECORATE")
+
+	INPUTER.Text = ""
+
+	local function NewLine(toPrint)
+		lineCount += 1
+		local LINE = Instance.new("TextLabel")
+		LINE.Parent = SCROLL
+		LINE.Size = UDim2.new(1, 0, 0.0000000635, 0)
+		LINE.BackgroundTransparency = 1
+		LINE.Name = "LINE"
+		LINE.Text = toPrint
+		LINE.TextColor3 = Color3.fromRGB(193, 193, 193)
+		LINE.TextScaled = true
+		LINE.Font = Enum.Font.Arcade
+		LINE.TextXAlignment = Enum.TextXAlignment.Left
+		lastLinePos += 0.0000000635
+		LINE.Position = UDim2.new(0, 0, lastLinePos, 0)
+	end
+
+	toPrint = "- WELCOME TO ECOS V1.0"
+	NewLine(toPrint)
+	toPrint = '- WRITE "help" IN COMMAND BAR TO SEE COMMANDS'
+	NewLine(toPrint)
+	toPrint = '- https://github.com/Meni9797/ECOS'
+	NewLine(toPrint)
+
+	SCROLL.ChildAdded:Connect(function(c)
+		if c.ClassName == "TextLabel" then
+			local COM = c.Text
+			local CheckComment = COM:sub(1,1)
+			if CheckComment ~= "-" then
+				local COMMAIN = string.sub(COM, 1, 4)
+				local COMAFTER = string.sub(COM, 6)
+				if assignParentNewInstance == false then
+					if COMMAIN == "help" then
+						toPrint = "- ALL COMMANDS FOR ECOS:"
+						NewLine(toPrint)
+						toPrint = "- "
+						NewLine(toPrint)
+						toPrint = "- OPERATING SYSTEM OPERATING COMMANDS:"
+						NewLine(toPrint)
+						toPrint = "- help - Shows all commands for ECOS"
+						NewLine(toPrint)
+						toPrint = "- clrc - Clears all text if it's possible"
+						NewLine(toPrint)
+						toPrint = "- prnt (your text here) - Prints text after command"
+						NewLine(toPrint)
+						toPrint = "- info - Prints info about ECOS"
+						NewLine(toPrint)
+						toPrint = "- ldap - Loads app to files"
+						NewLine(toPrint)
+						toPrint = "- pnap - Opens app"
+						NewLine(toPrint)
+						toPrint = "- egos (your EGOS launcher link here) - Launches EGOS"
+						NewLine(toPrint)
+						toPrint = "- "
+						NewLine(toPrint)
+						toPrint = "- ROBLOX APP OPERATING COMMANDS:"
+						NewLine(toPrint)
+						toPrint = "- shut - Close roblox app"
+						NewLine(toPrint)
+						toPrint = "- ldst (your loadstring link here) - Activates loadstring (NOT APPLICATION)"
+						NewLine(toPrint)
+						toPrint = "- infy - Loads infinite yield (NOT APPLICATION)"
+						NewLine(toPrint)
+						toPrint = "- "
+						NewLine(toPrint)
+						toPrint = "- INSTANCE OPERATING COMMANDS:"
+						NewLine(toPrint)
+						toPrint = "- crte (instance name here) - Creates an instance"
+						NewLine(toPrint)
+						toPrint = "- dest (path to instance here) - Destroys an instance"
+						NewLine(toPrint)
+						toPrint = "- dupl (path to instance here) - Duplicates an instance"
+						NewLine(toPrint)
+					elseif COMMAIN == "shut" then
+						toPrint = "- shutting down..." .. COMAFTER
+						NewLine(toPrint)
+						wait(1)
+						game:Shutdown()
+					elseif COMMAIN == "prnt" then
+						toPrint = "- " .. COMAFTER
+						NewLine(toPrint)
+					elseif COMMAIN == "ldst" then
+						toPrint = "- loadstring " .. COMAFTER
+						NewLine(toPrint)
+						loadstring(game:HttpGet(COMAFTER))()
+					elseif COMMAIN == "info" then
+						toPrint = "- ECOS - EXPLOIT COMMAND OPERATING SYSTEM"
+						NewLine(toPrint)
+						toPrint = "- VERSION: 1.0"
+						NewLine(toPrint)
+						toPrint = "- MADE IN SEPT 22 - SEPT 29 2025 BY MENI9797"
+						NewLine(toPrint)
+						toPrint = "- USER: " .. plr.Name
+						NewLine(toPrint)
+						toPrint = "- DISPLAY NAME: " .. plr.DisplayName
+						NewLine(toPrint)
+					elseif COMMAIN == "infy" then
+						toPrint = "- loading infinite yield..."
+						NewLine(toPrint)
+						loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+					elseif COMMAIN == "clrc" then
+						if canClear == true then
+							SCROLL:ClearAllChildren()
+							lastLinePos = 0
+							lineCount = 0
+						end
+					elseif COMMAIN == "ldap" then
+						toPrint = "- loading application..."
+						NewLine(toPrint)
+					elseif COMMAIN == "pnap" then
+						toPrint = "- opening application..."
+						NewLine(toPrint)
+					elseif COMMAIN == "egos" then
+						local findEgos = INVISIBLE:FindFirstChild("EGOS")
+						if findEgos then
+							toPrint = "- EGOS is already running"
+							NewLine(toPrint)
+						else
+							toPrint = "- LAUNCHING EGOS"
+							NewLine(toPrint)
+							loadstring(game:HttpGet(COMAFTER))()
+						end
+					elseif COMMAIN == "crte" then
+						assignParentNewInstance = true
+						newInstanceClassName = COMAFTER
+						toPrint = "- please assign a parent for instance"
+						NewLine(toPrint)
+						toPrint = '- type "skip" if you dont want to create new instance'
+						NewLine(toPrint)
+						toPrint = '- type "asgn (parent path here)" if you want to assign parent'
+						NewLine(toPrint)
+					elseif COMMAIN == "dest" then
+						local partDestroyLoadstring = COMAFTER .. ":Destroy()"
+						toPrint = "- destroying object:"
+						NewLine(toPrint)
+						toPrint = "- " .. COMAFTER
+						NewLine(toPrint)
+						loadstring(partDestroyLoadstring)()
+					elseif COMMAIN == "dupl" then
+						local partDuplicateLoadstring = COMAFTER .. ":Clone().Parent = " .. COMAFTER .. ".Parent"
+						toPrint = "- duplicating object:"
+						NewLine(toPrint)
+						toPrint = "- " .. COMAFTER
+						NewLine(toPrint)
+						loadstring(partDuplicateLoadstring)()
+					else
+						toPrint = "- INVALID COMMAND"
+						NewLine(toPrint)
+					end
+				else
+					if COMMAIN == "skip" then
+						assignParentNewInstance = false
+					elseif COMMAIN == "asgn" then
+						local partCreateLoadstring = 'Instance.new("' .. newInstanceClassName .. '", ' .. COMAFTER .. ')'
+						toPrint = "- creating new instance and assigning it's parent...:"
+						NewLine(toPrint)
+						toPrint = "- " .. newInstanceClassName
+						NewLine(toPrint)
+						toPrint = "- " .. COMAFTER
+						NewLine(toPrint)
+						loadstring(partCreateLoadstring)()
+						assignParentNewInstance = false
+					end
+				end
+			end
+		end
+	end)
+	
+	NEARINPUT.ChildAdded:Connect(function(c)
+		if c.ClassName == "TextLabel" then
+			toPrint = c.Text
+			NewLine(toPrint)
+			c:Destroy()
+		end
+	end)
+
+	INPUTER.Focused:Connect(function()
+		isFocused = true
+	end)
+
+	INPUTER.FocusLost:Connect(function()
+		isFocused = false
+	end)
+
+	uis.InputBegan:Connect(function(i)
+		if i.KeyCode == Enum.KeyCode.Return then
+			if INPUTER.Text ~= "" then
+				toPrint = INPUTER.Text
+				NewLine(toPrint)
+				INPUTER.Text = ""
+			end
+		end
+	end)
+end
