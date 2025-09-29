@@ -1,0 +1,51 @@
+-- EGOS 25 MANAGER
+-- BASED ON WINDOWS 95 AND WINDOWS 98
+-- 2025 BY MENI9797
+
+-- DO NOT EDIT ANYTHING BELOW --
+
+-- VARIABLES --
+
+local plr = game.Players.LocalPlayer
+local gui = plr.PlayerGui
+local uis = game:GetService("UserInputService")
+local toPrint
+
+-- CODE --
+
+local ECOSGUI = gui:WaitForChild("ECOS")	
+local INVISIBLE = ECOSGUI:WaitForChild("MAIN")
+local ECOS = INVISIBLE:WaitForChild("ECOS")
+local SCROLL = ECOS:WaitForChild("COMMANDS")
+local NEARINPUT = ECOS:WaitForChild("TXTNEARINPUTERDECORATE")
+
+local function NewLine(toPrint)
+	local LINE = Instance.new("TextLabel")
+	LINE.Parent = NEARINPUT
+	LINE.Size = UDim2.new(1, 0, 1, 0)
+	LINE.BackgroundTransparency = 1
+	LINE.Name = "LINEEGOSFROM"
+	LINE.Text = toPrint
+	LINE.TextColor3 = Color3.fromRGB(193, 193, 193)
+	LINE.TextScaled = true
+	LINE.Font = Enum.Font.Arcade
+	LINE.TextXAlignment = Enum.TextXAlignment.Left
+	LINE.TextTransparency = 1
+end
+
+toPrint = "- CREATING EGOS 25 FRAME"
+NewLine(toPrint)
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Meni9797/ECOS/refs/heads/main/CreateEGOS25"))() -- Create EGOS
+local MAIN = INVISIBLE:WaitForChild("EGOS")
+toPrint = "- FRAME WAS CREATED SUCESSFULLY"
+NewLine(toPrint)
+toPrint = "- EXPLOIT GRAPHIC OPERATING SYSTEM 25 HAS BEEN SUCCESSFULLY CREATED"
+NewLine(toPrint)
+toPrint = "- EGOS 25"
+NewLine(toPrint)
+toPrint = "- BASED ON WINDOWS 95 AND WINDOWS 98"
+NewLine(toPrint)
+toPrint = "- 2025 BY MENI9797"
+NewLine(toPrint)
+toPrint = "- 09.29.2025 - 09.29.2025"
+NewLine(toPrint)
