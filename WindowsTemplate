@@ -62,6 +62,7 @@ if EGOS then
 	buttonTaskbar.TextXAlignment = Enum.TextXAlignment.Left
 	buttonTaskbar.Text = WindowName
 	buttonTaskbar.Size = UDim2.new(0.3, 0, 0.8, 0)
+	local mainWinFrame = newWin:WaitForChild("MainFrame")
 	newWin.UpperBar.CloseButton.MouseButton1Click:Connect(function()
 		newWin.CloseVal.Value = true
 	end)
