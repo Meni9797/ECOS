@@ -291,9 +291,6 @@ if EGOS then
 	newWin.UpperBar.CloseButton.MouseButton1Click:Connect(function()
 		newWin.CloseVal.Value = true
 	end)
-	newWin.UpperBar.CloseButton.MouseButton1Click:Connect(function()
-		newWin.CloseVal.Value = true
-	end)
 	newWin.UpperBar.MinimizeButton.MouseButton1Click:Connect(function()
 		newWin.Visible = false
 	end)
