@@ -7,6 +7,7 @@ local sizeWindow = 1
 -- 1 - 0.5, 0.7 (Square)
 -- 2 - 0.755, 0.7 (Rectangle)
 -- 3 - 0.544, 0.28 (Narrow Rectangle)
+local loadstringLink = "https://raw.githubusercontent.com/Meni9797/ECOS/refs/heads/main/WindowsTemplate"
 
 -- VARIABLES --
 
@@ -79,6 +80,13 @@ if EGOS then
 			script.Enabled = false
 		end
 	end)
+	local findThisApp = FILES:FindFirstChild(FileName .. ".SCR")
+	if findThisApp == nil then
+		local newFileApp = Instance.new("StringValue")
+		newFileApp.Parent = FILES
+		newFileApp.Name = FileName .. "SCR"
+		newFileApp.Value = loadstringLink
+	end
 	
 	-- INTERFACE AND FUNCTIONALITY CREATION --
 
