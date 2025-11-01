@@ -36,6 +36,7 @@ end
 toPrint = "- CREATING EGOS 25 FRAME"
 NewLine(toPrint)
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Meni9797/ECOS/refs/heads/main/CreateEGOS25"))() -- Create EGOS
+wait(1)
 local MAIN = INVISIBLE:WaitForChild("EGOS")
 toPrint = "- FRAME WAS CREATED SUCESSFULLY"
 NewLine(toPrint)
