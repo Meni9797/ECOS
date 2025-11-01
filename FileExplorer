@@ -84,7 +84,7 @@ if EGOS then
 	if findThisApp == nil then
 		local newFileApp = Instance.new("StringValue")
 		newFileApp.Parent = FILES
-		newFileApp.Name = FileName .. ".SCR"
+		newFileApp.Name = FileName .. "SCR"
 		newFileApp.Value = loadstringLink
 	end
 	
@@ -208,7 +208,7 @@ if EGOS then
 			if fileFormatLetters == "RCS" then
 				local findFile = FILES:FindFirstChild(fileNameDisplay)
 				if findFile then
-					loadstring(findFile.Value)()
+					loadstring(game:HttpGet(findFile.Value))()
 				end
 			end
 		end)
