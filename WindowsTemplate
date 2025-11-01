@@ -80,6 +80,6 @@ if EGOS then
 	end)
 	
 	-- INTERFACE AND FUNCTIONALITY CREATION --
-	
+
 	
 end
