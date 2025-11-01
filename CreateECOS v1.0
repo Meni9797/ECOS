@@ -49,3 +49,6 @@ txtNearInputer.BackgroundTransparency = 1
 txtNearInputer.TextColor3 = Color3.fromRGB(193, 193, 193)
 txtNearInputer.Font = Enum.Font.Arcade
 txtNearInputer.Name = "TXTNEARINPUTERDECORATE"
+local folFiles = Instance.new("Folder")
+folFiles.Parent = ui
+folFiles.Name = "FILES"
