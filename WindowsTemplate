@@ -22,11 +22,16 @@ local selFile
 -- FUNCTIONS --
 
 local function CreateNewFile(fileName, fileFormat, content)
-	local newFile = Instance.new("StringValue")
-	newFile.Parent = FILES
-	local upperFileFormat = string.upper(fileFormat)
-	newFile.Name = fileName .. "." .. upperFileFormat
-	newFile.Value = content
+	local findFileExist = FILES:FindFirstChild(fileName .. "." .. fileFormat)
+	if findFileExist then
+		findFileExist.Value = content
+	else
+		local newFile = Instance.new("StringValue")
+		newFile.Parent = FILES
+		local upperFileFormat = string.upper(fileFormat)
+		newFile.Name = fileName .. "." .. upperFileFormat
+		newFile.Value = content
+	end
 end
 
 local function SelectFileByPlayer(allowedFileFormats)
