@@ -1,0 +1,463 @@
+-- WINDOW & APP SETTING --
+
+local FileName = "rc7" -- NO FILE FORMAT AT THE END
+local WindowName = "RC7"
+local WindowIconId = 117617389596918
+local sizeWindow = 1 
+-- 1 - 0.5, 0.7 (Square)
+-- 2 - 0.755, 0.7 (Rectangle)
+-- 3 - 0.544, 0.28 (Narrow Rectangle)
+local loadstringLink = "https://raw.githubusercontent.com/Meni9797/ECOS/refs/heads/preinstalledApps/FileExplorer"
+
+-- VARIABLES --
+
+local plr = game.Players.LocalPlayer
+local gui = plr.PlayerGui
+local ECOSuiFind = gui:WaitForChild("ECOS")
+local INVIS = ECOSuiFind:FindFirstChildWhichIsA("Frame")
+local FILES = ECOSuiFind:WaitForChild("FILES")
+local ECOS = INVIS:WaitForChild("ECOS")
+local selFile
+
+-- FUNCTIONS --
+
+local function CreateNewFile(fileName, fileFormat, content)
+	local findFileExist = FILES:FindFirstChild(fileName .. "." .. fileFormat)
+	if findFileExist then
+		findFileExist.Value = content
+	else
+		local newFile = Instance.new("StringValue")
+		newFile.Parent = FILES
+		local upperFileFormat = string.upper(fileFormat)
+		newFile.Name = fileName .. "." .. upperFileFormat
+		newFile.Value = content
+	end
+end
+
+local function SelectFileByPlayer(allowedFileFormats)
+	local EGOS = INVIS:FindFirstChild("EGOS")
+	local findWinSel = EGOS:FindFirstChild("Frame2")
+	local newWinSel
+	if findWinSel then
+		newWinSel = findWinSel:Clone()
+	end
+	newWinSel.Parent = EGOS
+	newWinSel.Visible = true
+	newWinSel.UpperBar.WindowName.Text = "Select File..."
+	newWinSel.UpperBar.Icon.Image = "rbxassetid://77430338130198"
+	local mainWinSelFrame = newWinSel:WaitForChild("MainFrame")
+	newWinSel.UpperBar.CloseButton.Visible = false
+	newWinSel.UpperBar.MinimizeButton.Visible = false
+	
+	local folder = "Main"
+
+	local frameLeft = Instance.new("Frame")
+	frameLeft.Parent = mainWinSelFrame
+	frameLeft.Size = UDim2.new(0.2, 0, 1, 0)
+	frameLeft.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	frameLeft.BorderColor3 = Color3.fromRGB(61, 61, 61)
+	frameLeft.BorderSizePixel = 2
+	frameLeft.ZIndex = 5
+	frameLeft.Name = "FrameLeft"
+	local frameRight = Instance.new("ScrollingFrame")
+	frameRight.Parent = mainWinSelFrame
+	frameRight.Size = UDim2.new(0.8, 0, 1, 0)
+	frameRight.Position = UDim2.new(0.2, 0, 0, 0)
+	frameRight.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	frameRight.BorderColor3 = Color3.fromRGB(61, 61, 61)
+	frameRight.BorderSizePixel = 2
+	frameRight.ZIndex = 5
+	frameRight.CanvasSize = UDim2.new(0, 0, 50, 0)
+	frameRight.ScrollBarImageColor3 = Color3.fromRGB(0, 0, 0)
+	frameRight.Name = "FrameRight"
+	local uiListLayout = Instance.new("UIListLayout")
+	uiListLayout.Parent = frameRight
+	uiListLayout.Wraps = true
+	uiListLayout.FillDirection = Enum.FillDirection.Horizontal
+	uiListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Left
+	uiListLayout.VerticalAlignment = Enum.VerticalAlignment.Top
+	local scrFolderButton = Instance.new("TextButton")
+	scrFolderButton.Parent = frameLeft
+	scrFolderButton.Text = "Scripts"
+	scrFolderButton.TextScaled = true
+	scrFolderButton.RichText = true
+	scrFolderButton.Font = Enum.Font.Arcade
+	scrFolderButton.Position = UDim2.new(0.0125, 0, 0, 0)
+	scrFolderButton.Size = UDim2.new(0.95, 0, 0.1, 0)
+	scrFolderButton.BackgroundColor3 = Color3.fromRGB(192, 192, 192)
+	scrFolderButton.BorderColor3 = Color3.fromRGB(61, 61, 61)
+	scrFolderButton.BorderSizePixel = 2
+	scrFolderButton.ZIndex = 6
+	scrFolderButton.Name = "ScriptsButton"
+	local mediaFolderButton = Instance.new("TextButton")
+	mediaFolderButton.Parent = frameLeft
+	mediaFolderButton.Text = "IMG, AUD, VID"
+	mediaFolderButton.TextScaled = true
+	mediaFolderButton.RichText = true
+	mediaFolderButton.Font = Enum.Font.Arcade
+	mediaFolderButton.Position = UDim2.new(0.0125, 0, 0.1, 0)
+	mediaFolderButton.Size = UDim2.new(0.95, 0, 0.1, 0)
+	mediaFolderButton.BackgroundColor3 = Color3.fromRGB(192, 192, 192)
+	mediaFolderButton.BorderColor3 = Color3.fromRGB(61, 61, 61)
+	mediaFolderButton.BorderSizePixel = 2
+	mediaFolderButton.ZIndex = 6
+	mediaFolderButton.Name = "MediaButton"
+	local otherFolderButton = Instance.new("TextButton")
+	otherFolderButton.Parent = frameLeft
+	otherFolderButton.Text = "Other"
+	otherFolderButton.TextScaled = true
+	otherFolderButton.RichText = true
+	otherFolderButton.Font = Enum.Font.Arcade
+	otherFolderButton.Position = UDim2.new(0.0125, 0, 0.2, 0)
+	otherFolderButton.Size = UDim2.new(0.95, 0, 0.1, 0)
+	otherFolderButton.BackgroundColor3 = Color3.fromRGB(192, 192, 192)
+	otherFolderButton.BorderColor3 = Color3.fromRGB(61, 61, 61)
+	otherFolderButton.BorderSizePixel = 2
+	otherFolderButton.ZIndex = 6
+	otherFolderButton.Name = "OtherButton"
+
+	local fileNameDisplay
+	local function DisplayFile(fileNameDisplay)
+		local fileButton = Instance.new("ImageButton")
+		fileButton.Parent = frameRight
+		fileButton.Size = UDim2.new(0.2, 0, 0.005, 0)
+		fileButton.BackgroundTransparency = 1
+		fileButton.ZIndex = 7
+		fileButton.Name = "file"
+		local fileIcon = Instance.new("ImageLabel")
+		fileIcon.Parent = fileButton
+		fileIcon.Size = UDim2.new(0.8, 0, 0.8, 0)
+		fileIcon.Position = UDim2.new(0.1, 0, 0, 0)
+		fileIcon.BackgroundTransparency = 1
+		fileIcon.ZIndex = 8
+		local fileFormatLetters = ""
+		local reachedDot = false
+		local e = -1
+		repeat
+			wait()
+			local l = fileNameDisplay:sub(e, e)
+			if l == "." then
+				reachedDot = true
+			else
+				e -= 1
+				local ffl = fileFormatLetters .. l
+				fileFormatLetters = ffl
+			end
+		until reachedDot == true
+		if fileFormatLetters == "RCS" then
+			fileIcon.Image = "rbxassetid://93394399298455"
+		elseif fileFormatLetters == "GMI" or fileFormatLetters == "DUA" or fileFormatLetters == "DIV" then
+			fileIcon.Image = "rbxassetid://121124536428437"
+		else
+			fileIcon.Image = "rbxassetid://133254212186400"
+		end
+		local fileNameText = Instance.new("TextLabel")
+		fileNameText.Parent = fileButton
+		fileNameText.BackgroundTransparency = 1
+		fileNameText.TextColor3 = Color3.fromRGB(0, 0, 0)
+		fileNameText.Size = UDim2.new(1, 0, 0.2, 0)
+		fileNameText.Position = UDim2.new(0, 0, 0.8, 0)
+		fileNameText.ZIndex = 8
+		fileNameText.TextScaled = true
+		fileNameText.RichText = true
+		fileNameText.Font = Enum.Font.Arcade
+		fileNameText.Text = fileNameDisplay
+		fileNameText.ZIndex = 8
+		fileButton.MouseButton1Click:Connect(function()
+			local findInTable = table.find(allowedFileFormats, fileFormatLetters)
+			if findInTable then
+				local findFile = FILES:FindFirstChild(fileNameDisplay)
+				if findFile then
+					selFile = fileNameDisplay
+					newWinSel:Destroy()
+				end
+			end
+		end)
+	end
+
+	scrFolderButton.MouseButton1Click:Connect(function()
+		for i,v in ipairs(frameRight:GetChildren()) do
+			if v.Name == "file" then
+				v:Destroy()
+			end
+		end
+		for i2,v2 in ipairs(FILES:GetChildren()) do
+			local fileFormatLettersE = ""
+			local reachedDotE = false
+			local eE = -1
+			repeat
+				wait(0.01)
+				local lE = v2.Name:sub(eE, eE)
+				if lE == "." then
+					reachedDotE = true
+				else
+					eE -= 1
+					local fflE = fileFormatLettersE .. lE
+					fileFormatLettersE = fflE
+				end
+			until reachedDotE == true
+			if fileFormatLettersE == "RCS" then
+				DisplayFile(v2.Name)
+			end
+		end
+	end)
+
+	mediaFolderButton.MouseButton1Click:Connect(function()
+		for i,v in ipairs(frameRight:GetChildren()) do
+			if v.Name == "file" then
+				v:Destroy()
+			end
+		end
+		for i2,v2 in ipairs(FILES:GetChildren()) do
+			local fileFormatLettersE = ""
+			local reachedDotE = false
+			local eE = -1
+			repeat
+				wait(0.01)
+				local lE = v2.Name:sub(eE, eE)
+				if lE == "." then
+					reachedDotE = true
+				else
+					eE -= 1
+					local fflE = fileFormatLettersE .. lE
+					fileFormatLettersE = fflE
+				end
+			until reachedDotE == true
+			if fileFormatLettersE == "GMI" or fileFormatLettersE == "DUA" or fileFormatLettersE == "DIV" then
+				DisplayFile(v2.Name)
+			end
+		end
+	end)
+
+	otherFolderButton.MouseButton1Click:Connect(function()
+		for i,v in ipairs(frameRight:GetChildren()) do
+			if v.Name == "file" then
+				v:Destroy()
+			end
+		end
+		for i2,v2 in ipairs(FILES:GetChildren()) do
+			local fileFormatLettersE = ""
+			local reachedDotE = false
+			local eE = -1
+			repeat
+				wait(0.01)
+				local lE = v2.Name:sub(eE, eE)
+				if lE == "." then
+					reachedDotE = true
+				else
+					eE -= 1
+					local fflE = fileFormatLettersE .. lE
+					fileFormatLettersE = fflE
+				end
+			until reachedDotE == true
+			if fileFormatLettersE ~= "RCS" and fileFormatLettersE ~= "GMI" and fileFormatLettersE ~= "DUA" and fileFormatLettersE ~= "DIV" then
+				DisplayFile(v2.Name)
+			end
+		end
+	end)
+end
+
+-- CODE --
+
+wait(1)
+local EGOS = INVIS:FindFirstChild("EGOS")
+if EGOS then
+	local newWin
+	if sizeWindow == 1 then
+		local findWin = EGOS:FindFirstChild("Frame1")
+		if findWin then
+			newWin = findWin:Clone()
+		end
+	elseif sizeWindow == 2 then
+		local findWin = EGOS:FindFirstChild("Frame2")
+		if findWin then
+			newWin = findWin:Clone()
+		end
+	elseif sizeWindow == 3 then
+		local findWin = EGOS:FindFirstChild("Frame3")
+		if findWin then
+			newWin = findWin:Clone()
+		end
+	end
+	newWin.Parent = EGOS
+	newWin.Visible = true
+	newWin.UpperBar.WindowName.Text = WindowName
+	newWin.UpperBar.Icon.Image = "rbxassetid://" .. WindowIconId
+	local buttonTaskbar = Instance.new("TextButton")
+	buttonTaskbar.Parent = EGOS.Taskbar
+	buttonTaskbar.BackgroundColor3 = Color3.fromRGB(192, 192, 192)
+	buttonTaskbar.BorderColor3 = Color3.fromRGB(61, 61, 61)
+	buttonTaskbar.BorderSizePixel = 2
+	buttonTaskbar.Font = Enum.Font.Arcade
+	buttonTaskbar.TextScaled = true
+	buttonTaskbar.TextXAlignment = Enum.TextXAlignment.Left
+	buttonTaskbar.Text = WindowName
+	buttonTaskbar.Size = UDim2.new(0.3, 0, 0.8, 0)
+	local mainWinFrame = newWin:WaitForChild("MainFrame")
+	newWin.UpperBar.CloseButton.MouseButton1Click:Connect(function()
+		newWin.CloseVal.Value = true
+	end)
+	newWin.UpperBar.MinimizeButton.MouseButton1Click:Connect(function()
+		newWin.Visible = false
+	end)
+	buttonTaskbar.MouseButton1Click:Connect(function()
+		newWin.Visible = true
+	end)
+	newWin.CloseVal.Changed:Connect(function(v)
+		if v == true then
+			buttonTaskbar:Destroy()
+			newWin:Destroy()
+			script.Enabled = false
+		end
+	end)
+	local findThisApp = FILES:FindFirstChild(FileName .. ".SCR")
+	if findThisApp == nil then
+		local newFileApp = Instance.new("StringValue")
+		newFileApp.Parent = FILES
+		newFileApp.Name = FileName .. ".SCR"
+		newFileApp.Value = loadstringLink
+	end
+	
+	-- INTERFACE AND FUNCTIONALITY CREATION --
+	
+	local mainImage = Instance.new("ImageLabel")
+	mainImage.Parent = mainWinFrame
+	mainImage.Size = UDim2.new(1, 0, 1.215, 0)
+	mainImage.Position = UDim2.new(0, 0, -0.215, 0)
+	mainImage.BackgroundTransparency = 1
+	mainImage.Image = "rbxassetid://14622869499"
+	mainImage.ZIndex = 5
+	mainImage.Name = "Main"
+	local saveButton = Instance.new("TextButton")
+	saveButton.Parent = mainImage
+	saveButton.Size = UDim2.new(0.1, 0, 0.081, 0)
+	saveButton.Position = UDim2.new(0.898, 0, 0.435, 0)
+	saveButton.BackgroundTransparency = 1
+	saveButton.TextTransparency = 1
+	saveButton.ZIndex = 7
+	saveButton.Name = "SaveButton"
+	local scrollingFrame = Instance.new("ScrollingFrame")
+	scrollingFrame.Parent = mainImage
+	scrollingFrame.Position = UDim2.new(0.03, 0, 0.18, 0)
+	scrollingFrame.Size = UDim2.new(0.83, 0, 0.597, 0)
+	scrollingFrame.BackgroundTransparency = 1
+	scrollingFrame.CanvasSize = UDim2.new(0, 0, 200, 0)
+	scrollingFrame.ScrollBarImageColor3 = Color3.fromRGB(0, 0, 0)
+	scrollingFrame.ZIndex = 6
+	local textbox = Instance.new("TextBox")
+	textbox.Parent = scrollingFrame
+	textbox.Size = UDim2.new(1, 0, 1, 0)
+	textbox.TextColor3 = Color3.fromRGB(0, 0, 0)
+	textbox.TextXAlignment = Enum.TextXAlignment.Left
+	textbox.TextYAlignment = Enum.TextYAlignment.Top
+	textbox.TextWrapped = true
+	textbox.ClearTextOnFocus = false
+	textbox.BackgroundTransparency = 1
+	textbox.Font = Enum.Font.Arcade
+	textbox.RichText = true
+	textbox.MultiLine = true
+	textbox.TextSize = 14
+	textbox.TextColor3 = Color3.fromRGB(0, 0, 0)
+	textbox.ZIndex = 7
+	textbox.PlaceholderText = "Code Here"
+	textbox.PlaceholderColor3 = Color3.fromRGB(128, 128, 128)
+	textbox.Text = ""
+	textbox.Name = "CodePlace"
+	local textboxName = Instance.new("TextBox")
+	textboxName.Parent = mainImage
+	textboxName.Size = UDim2.new(0.83, 0, 0.15, 0)
+	textboxName.Position = UDim2.new(0.03, 0, 0.85, 0)
+	textboxName.TextColor3 = Color3.fromRGB(0, 0, 0)
+	textboxName.TextXAlignment = Enum.TextXAlignment.Left
+	textboxName.TextYAlignment = Enum.TextYAlignment.Top
+	textboxName.TextWrapped = true
+	textboxName.ClearTextOnFocus = false
+	textboxName.BackgroundTransparency = 1
+	textboxName.Font = Enum.Font.Arcade
+	textboxName.RichText = true
+	textboxName.MultiLine = false
+	textboxName.TextSize = 14
+	textboxName.TextColor3 = Color3.fromRGB(0, 0, 0)
+	textboxName.ZIndex = 7
+	textboxName.PlaceholderText = "SCR File Name"
+	textboxName.PlaceholderColor3 = Color3.fromRGB(128, 128, 128)
+	textboxName.Text = ""
+	textboxName.Name = "FilenamePlace"
+	local openButton = Instance.new("TextButton")
+	openButton.Parent = mainImage
+	openButton.Size = UDim2.new(0.273, 0, 0.068, 0)
+	openButton.Position = UDim2.new(0.027, 0, 0.777, 0)
+	openButton.BackgroundTransparency = 1
+	openButton.ZIndex = 7
+	openButton.Text = "Open"
+	openButton.Font = Enum.Font.Arcade
+	openButton.TextColor3 = Color3.fromRGB(255, 120, 120)
+	openButton.TextScaled = true
+	openButton.FontFace.Weight = Enum.FontWeight.Heavy
+	openButton.RichText = true
+	openButton.Name = "OpenButton"
+	local executeButton = Instance.new("TextButton")
+	executeButton.Parent = mainImage
+	executeButton.Size = UDim2.new(0.273, 0, 0.068, 0)
+	executeButton.Position = UDim2.new(0.306, 0, 0.777, 0)
+	executeButton.BackgroundTransparency = 1
+	executeButton.ZIndex = 7
+	executeButton.Text = "Execute"
+	executeButton.Font = Enum.Font.Arcade
+	executeButton.TextColor3 = Color3.fromRGB(255, 120, 120)
+	executeButton.TextScaled = true
+	executeButton.FontFace.Weight = Enum.FontWeight.Heavy
+	executeButton.RichText = true
+	executeButton.Name = "ExecuteButton"
+	local clearButton = Instance.new("TextButton")
+	clearButton.Parent = mainImage
+	clearButton.Size = UDim2.new(0.273, 0, 0.068, 0)
+	clearButton.Position = UDim2.new(0.584, 0, 0.777, 0)
+	clearButton.BackgroundTransparency = 1
+	clearButton.ZIndex = 7
+	clearButton.Text = "Clear"
+	clearButton.Font = Enum.Font.Arcade
+	clearButton.TextColor3 = Color3.fromRGB(255, 120, 120)
+	clearButton.TextScaled = true
+	clearButton.FontFace.Weight = Enum.FontWeight.Heavy
+	clearButton.RichText = true
+	clearButton.Name = "ClearButton"
+	
+	local isLoad = false
+	
+	openButton.MouseButton1Click:Connect(function()
+		if isLoad == false then
+			local allowedFileFormats = {"RCS"}
+			SelectFileByPlayer(allowedFileFormats)
+			openButton.Text = "Load"
+			isLoad = true
+		else
+			local findFileE = FILES:FindFirstChild(selFile)
+			if findFileE then
+				textbox.Text = findFileE.Value
+				local e = string.sub(findFileE.Name, 1, #findFileE.Name - 4)
+				textboxName.Text = e
+				isLoad = false
+				openButton.Text = "Open"
+			end
+		end
+	end)
+	
+	executeButton.MouseButton1Click:Connect(function()
+		if textbox.Text ~= "" then
+			loadstring(game:HttpGet(textbox.Text))()
+		end
+	end)
+	
+	clearButton.MouseButton1Click:Connect(function()
+		textbox.Text = ""
+	end)
+	
+	saveButton.MouseButton1Click:Connect(function()
+		local fileName  = textboxName.Text
+		local fileFormat = "SCR"
+		local content = textbox.Text
+		CreateNewFile(fileName, fileFormat, content)
+	end)
+	
+end
