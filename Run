@@ -8,7 +8,7 @@ local sizeWindow = 3
 -- 1 - 0.5, 0.7 (Square)
 -- 2 - 0.755, 0.7 (Rectangle)
 -- 3 - 0.544, 0.28 (Narrow Rectangle)
-local loadstringLink = "Your Link Here" -- JUST LINK, NOT WHOLE LOADSTRING
+local loadstringLink = "https://raw.githubusercontent.com/Meni9797/ECOS/refs/heads/preinstalledApps/Run" -- JUST LINK, NOT WHOLE LOADSTRING
 
 -- VARIABLES --
 
@@ -334,13 +334,6 @@ if EGOS then
 		newWin.CloseVal.Value = true
 	end
 end
-local findThisApp = FILES:FindFirstChild(FileName .. ".SCR")
-if findThisApp == nil then
-	local newFileApp = Instance.new("StringValue")
-	newFileApp.Parent = FILES
-	newFileApp.Name = FileName .. ".SCR"
-	newFileApp.Value = loadstringLink
-end
 
 -- INTERFACE AND FUNCTIONALITY CREATION --
 
@@ -371,6 +364,8 @@ uis.InputBegan:Connect(function(i)
 			loadstring(game:HttpGet("https://raw.githubusercontent.com/Meni9797/ECOS/refs/heads/preinstalledApps/FileExplorer"))()
 		elseif cmd == "rc7" then
 			loadstring(game:HttpGet("https://raw.githubusercontent.com/Meni9797/ECOS/refs/heads/preinstalledApps/RC7"))()
+		elseif cmd == "run" then
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/Meni9797/ECOS/refs/heads/preinstalledApps/Run"))()
 		end
 		newWin.CloseVal.Value = true
 	end
