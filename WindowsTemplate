@@ -3,11 +3,12 @@
 local FileName = "YourAppFileName" -- NO FILE FORMAT AT THE END
 local WindowName = "YourWindowNameHere"
 local WindowIconId = 75040620527872
+local MadeFor = "25" -- Operating System which can run this app. "25" - EGOS 25
 local sizeWindow = 1 
 -- 1 - 0.5, 0.7 (Square)
 -- 2 - 0.755, 0.7 (Rectangle)
 -- 3 - 0.544, 0.28 (Narrow Rectangle)
-local loadstringLink = "YourLinkHere" -- JUST LINK, NOT LOADSTRING COMMAND
+local loadstringLink = "Your Link Here" -- JUST LINK, NOT WHOLE LOADSTRING
 
 -- VARIABLES --
 
@@ -36,12 +37,20 @@ end
 
 local function SelectFileByPlayer(allowedFileFormats)
 	local EGOS = INVIS:FindFirstChild("EGOS")
-	local findWinSel = EGOS:FindFirstChild("Frame2")
 	local newWinSel
-	if findWinSel then
-		newWinSel = findWinSel:Clone()
+	if EGOS then
+		local findWinSel = EGOS:FindFirstChild("Frame2")
+		if findWinSel then
+			newWinSel = findWinSel:Clone()
+		end
+		newWinSel.Parent = EGOS
+	else
+		local findWinSel = ECOS:FindFirstChild("Frame1")
+		if findWinSel then
+			newWinSel = findWinSel:Clone()
+		end
+		newWinSel.Parent = ECOS
 	end
-	newWinSel.Parent = EGOS
 	newWinSel.Visible = true
 	newWinSel.UpperBar.WindowName.Text = "Select File..."
 	newWinSel.UpperBar.Icon.Image = "rbxassetid://77430338130198"
@@ -261,8 +270,8 @@ end
 
 wait(1)
 local EGOS = INVIS:FindFirstChild("EGOS")
+local newWin
 if EGOS then
-	local newWin
 	if sizeWindow == 1 then
 		local findWin = EGOS:FindFirstChild("Frame1")
 		if findWin then
@@ -280,10 +289,18 @@ if EGOS then
 		end
 	end
 	newWin.Parent = EGOS
-	newWin.Visible = true
-	newWin.UpperBar.WindowName.Text = WindowName
-	newWin.UpperBar.Icon.Image = "rbxassetid://" .. WindowIconId
-	local buttonTaskbar = Instance.new("TextButton")
+else
+	local findWin = ECOS:FindFirstChild("Frame1")
+	if findWin then
+		newWin = findWin:Clone()
+	end
+	newWin.Parent = ECOS
+end
+newWin.Visible = true
+newWin.UpperBar.WindowName.Text = WindowName
+newWin.UpperBar.Icon.Image = "rbxassetid://" .. WindowIconId
+local buttonTaskbar = Instance.new("TextButton")
+if EGOS then
 	buttonTaskbar.Parent = EGOS.Taskbar
 	buttonTaskbar.BackgroundColor3 = Color3.fromRGB(192, 192, 192)
 	buttonTaskbar.BorderColor3 = Color3.fromRGB(61, 61, 61)
@@ -293,33 +310,38 @@ if EGOS then
 	buttonTaskbar.TextXAlignment = Enum.TextXAlignment.Left
 	buttonTaskbar.Text = WindowName
 	buttonTaskbar.Size = UDim2.new(0.3, 0, 0.8, 0)
-	local mainWinFrame = newWin:WaitForChild("MainFrame")
-	newWin.UpperBar.CloseButton.MouseButton1Click:Connect(function()
-		newWin.CloseVal.Value = true
-	end)
-	newWin.UpperBar.MinimizeButton.MouseButton1Click:Connect(function()
-		newWin.Visible = false
-	end)
-	buttonTaskbar.MouseButton1Click:Connect(function()
-		newWin.Visible = true
-	end)
-	newWin.CloseVal.Changed:Connect(function(v)
-		if v == true then
-			buttonTaskbar:Destroy()
-			newWin:Destroy()
-			script.Enabled = false
-		end
-	end)
-	local findThisApp = FILES:FindFirstChild(FileName .. ".SCR")
-	if findThisApp == nil then
-		local newFileApp = Instance.new("StringValue")
-		newFileApp.Parent = FILES
-		newFileApp.Name = FileName .. ".SCR"
-		newFileApp.Value = loadstringLink
-	end
-	
-	-- INTERFACE AND FUNCTIONALITY CREATION --
-	
-	
-	
 end
+local mainWinFrame = newWin:WaitForChild("MainFrame")
+newWin.UpperBar.CloseButton.MouseButton1Click:Connect(function()
+	newWin.CloseVal.Value = true
+end)
+newWin.UpperBar.MinimizeButton.MouseButton1Click:Connect(function()
+	newWin.Visible = false
+end)
+buttonTaskbar.MouseButton1Click:Connect(function()
+	newWin.Visible = true
+end)
+newWin.CloseVal.Changed:Connect(function(v)
+	if v == true then
+		buttonTaskbar:Destroy()
+		newWin:Destroy()
+		script.Enabled = false
+	end
+end)
+local EGOSVER = ECOSuiFind:WaitForChild("EGOSVER")
+if EGOS then
+	if EGOSVER.Value ~= MadeFor then
+		newWin.CloseVal.Value = true
+	end
+end
+local findThisApp = FILES:FindFirstChild(FileName .. ".SCR")
+if findThisApp == nil then
+	local newFileApp = Instance.new("StringValue")
+	newFileApp.Parent = FILES
+	newFileApp.Name = FileName .. ".SCR"
+	newFileApp.Value = loadstringLink
+end
+
+-- INTERFACE AND FUNCTIONALITY CREATION --
+
+
