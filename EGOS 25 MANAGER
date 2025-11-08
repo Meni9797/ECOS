@@ -20,6 +20,7 @@ local SCROLL = ECOS:WaitForChild("COMMANDS")
 local NEARINPUT = ECOS:WaitForChild("TXTNEARINPUTERDECORATE")
 local EGOSVER = ECOSGUI:WaitForChild("EGOSVER")
 local EGOSEDIT = ECOSGUI:WaitForChild("EGOSEDIT")
+local FILES = ECOSGUI:WaitForChild("FILES")
 
 EGOSVER.Value = "25"
 EGOSEDIT.Value = "Classic"
