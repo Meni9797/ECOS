@@ -53,3 +53,52 @@ toPrint = "- BASED ON WINDOWS 95 AND WINDOWS 98"
 NewLine(toPrint)
 toPrint = "- 2025 BY MENI9797"
 NewLine(toPrint)
+
+local EGOS = INVISIBLE:WaitForChild("EGOS")
+local TASKBAR = EGOS:WaitForChild("Taskbar")
+local STARTBUTTON = TASKBAR:WaitForChild("StartButton")
+local STARTMENU = EGOS:WaitForChild("StartMenu")
+local PROGRAMSBUTTON = STARTMENU:WaitForChild("ProgramsButton")
+local RUNBUTTON = STARTMENU:WaitForChild("RunButton")
+local HELPBUTTON = STARTMENU:WaitForChild("HelpButton")
+local PROGRAMSMENU = EGOS:WaitForChild("ProgramsMenu")
+local EXPLORERBUTTON = PROGRAMSMENU:WaitForChild("ExplorerButton")
+local RC7BUTTON = PROGRAMSMENU:WaitForChild("RC7Button")
+
+STARTBUTTON.MouseButton1Click:Connect(function()
+	if STARTMENU.Visible == true then
+		STARTMENU.Visible = false
+	else
+		STARTMENU.Visible = true
+	end
+end)
+
+PROGRAMSBUTTON.MouseEnter:Connect(function()
+	PROGRAMSMENU.Visible = true
+end)
+
+RUNBUTTON.MouseEnter:Connect(function()
+	PROGRAMSMENU.Visible = false
+end)
+
+HELPBUTTON.MouseEnter:Connect(function()
+	PROGRAMSMENU.Visible = false
+end)
+
+EXPLORERBUTTON.MouseButton1Click:Connect(function()
+	local expl = FILES:FindFirstChild("fileexplorer.SCR")
+	if expl then
+		loadstring(game:HttpGet(expl.Value))()
+		PROGRAMSMENU.Visible = false
+		STARTMENU.Visible = false
+	end
+end)
+
+RC7BUTTON.MouseButton1Click:Connect(function()
+	local rc7 = FILES:FindFirstChild("rc7.SCR")
+	if rc7 then
+		loadstring(game:HttpGet(rc7.Value))()
+		PROGRAMSMENU.Visible = false
+		STARTMENU.Visible = false
+	end
+end)
