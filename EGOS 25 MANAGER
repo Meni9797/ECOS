@@ -92,19 +92,15 @@ RUNBUTTON.MouseButton1Click:Connect(function()
 end)
 
 EXPLORERBUTTON.MouseButton1Click:Connect(function()
-	local expl = FILES:FindFirstChild("fileexplorer.SCR")
-	if expl then
-		loadstring(game:HttpGet(expl.Value))()
-		PROGRAMSMENU.Visible = false
-		STARTMENU.Visible = false
-	end
+	local expl = FILES:WaitForChild("fileexplorer.SCR")
+	loadstring(game:HttpGet(expl.Value))()
+	PROGRAMSMENU.Visible = false
+	STARTMENU.Visible = false
 end)
 
 RC7BUTTON.MouseButton1Click:Connect(function()
-	local rc7 = FILES:FindFirstChild("rc7.SCR")
-	if rc7 then
-		loadstring(game:HttpGet(rc7.Value))()
-		PROGRAMSMENU.Visible = false
-		STARTMENU.Visible = false
-	end
+	local rc7 = FILES:WaitForChild("rc7.SCR")
+	loadstring(game:HttpGet(rc7.Value))()
+	PROGRAMSMENU.Visible = false
+	STARTMENU.Visible = false
 end)
