@@ -5,6 +5,7 @@
 -- FILE SAVES --
 
 local FILES = {}
+local FILESCONTAINMENT = {}
 local DESKTOP = {}
 local DESKTOPPOS = {}
 
@@ -71,7 +72,19 @@ else
 		lastLinePos += 0.0000000635
 		LINE.Position = UDim2.new(0, 0, lastLinePos, 0)
 	end
-
+	
+	toPrint = "- LOADING FILES FROM FILE STORAGE"
+	NewLine(toPrint)
+	
+	for i,v in pairs(FILES) do
+		local newFileLoad = Instance.new("StringValue")
+		newFileLoad.Parent = ECOS:WaitForChild("FILES")
+		newFileLoad.Name = v.Name
+		newFileLoad.Value = FILESCONTAINMENT[i]
+	end
+	
+	toPrint = "- FILES HAVE BEEN LOADED"
+	NewLine(toPrint)
 	toPrint = "- WELCOME TO ECOS V1.0"
 	NewLine(toPrint)
 	toPrint = '- WRITE "help" IN COMMAND BAR TO SEE COMMANDS'
