@@ -18,6 +18,11 @@ local INVISIBLE = ECOSGUI:WaitForChild("MAIN")
 local ECOS = INVISIBLE:WaitForChild("ECOS")
 local SCROLL = ECOS:WaitForChild("COMMANDS")
 local NEARINPUT = ECOS:WaitForChild("TXTNEARINPUTERDECORATE")
+local EGOSVER = ECOSGUI:WaitForChild("EGOSVER")
+local EGOSEDIT = ECOSGUI:WaitForChild("EGOSEDIT")
+
+EGOSVER.Value = "25"
+EGOSEDIT.Value = "Classic"
 
 local function NewLine(toPrint)
 	local LINE = Instance.new("TextLabel")
