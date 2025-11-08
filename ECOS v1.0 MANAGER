@@ -76,10 +76,10 @@ else
 	toPrint = "- LOADING FILES FROM FILE STORAGE"
 	NewLine(toPrint)
 	
-	for i,v in pairs(FILES) do
+	for i, v in ipairs(FILES) do
 		local newFileLoad = Instance.new("StringValue")
 		newFileLoad.Parent = ECOS:WaitForChild("FILES")
-		newFileLoad.Name = v.Name
+		newFileLoad.Name = v
 		newFileLoad.Value = FILESCONTAINMENT[i]
 	end
 	
