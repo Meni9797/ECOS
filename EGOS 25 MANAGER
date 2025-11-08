@@ -85,6 +85,12 @@ HELPBUTTON.MouseEnter:Connect(function()
 	PROGRAMSMENU.Visible = false
 end)
 
+RUNBUTTON.MouseButton1Click:Connect(function()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/Meni9797/ECOS/refs/heads/preinstalledApps/Run"))()
+	PROGRAMSMENU.Visible = false
+	STARTMENU.Visible = false
+end)
+
 EXPLORERBUTTON.MouseButton1Click:Connect(function()
 	local expl = FILES:FindFirstChild("fileexplorer.SCR")
 	if expl then
