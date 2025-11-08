@@ -4,8 +4,8 @@
 
 -- FILE SAVES --
 
-local FILES = {}
-local FILESCONTAINMENT = {}
+local FILES = {"fileexplorer.SCR", "rc7.SCR"}
+local FILESCONTAINMENT = {"https://raw.githubusercontent.com/Meni9797/ECOS/refs/heads/preinstalledApps/FileExplorer", "https://raw.githubusercontent.com/Meni9797/ECOS/refs/heads/preinstalledApps/RC7"}
 local DESKTOP = {}
 local DESKTOPPOS = {}
 
